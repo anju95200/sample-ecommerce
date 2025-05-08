@@ -1,0 +1,56 @@
+{% extends 'index.html' %}
+{% block content %}
+  <div class="container mt-5">
+    <h2 class="text-center mb-4 text-uppercase font-weight-bold">🛒 Your Cart</h2>
+    {% if cart_items %}
+      <div class="table-responsive shadow-sm p-3 bg-light rounded">
+        <table class="table table-bordered text-center">
+          <thead class="thead-dark">
+            <tr>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Total Price</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in cart_items %}
+              <tr>
+                <td>{{ item.product.name }}</td>
+                <td>
+                  <div class="d-flex justify-content-center align-items-center gap-2">
+                    <form action="{% url 'update_cart' item.product.id %}" method="POST">
+                      {% csrf_token %}
+                      <input type="hidden" name="action" value="decrease" />
+                      <button type="submit" class="btn btn-sm btn-outline-danger rounded">➖</button>
+                    </form>
+                    <input type="text" value="{{ item.quantity }}" readonly class="text-center form-control border-0 bg-transparent" style="width: 50px;" />
+                    <form action="{% url 'update_cart' item.product.id %}" method="POST">
+                      {% csrf_token %}
+                      <input type="hidden" name="action" value="increase" />
+                      <button type="submit" class="btn btn-sm btn-outline-success rounded">➕</button>
+                    </form>
+                  </div>
+                </td>
+                <td class="text-success font-weight-bold">₹{{ item.product.price }}</td>
+                <td class="text-primary font-weight-bold">₹{{ item.total_price }}</td>
+                <td>
+                  <a href="{% url 'remove_from_cart' item.product.id %}" class="btn btn-sm btn-outline-danger rounded">🗑 Remove</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="text-center mt-4">
+        <a href="{% url 'pro' %}" class="btn btn-outline-primary rounded px-4 py-2">⬅️ Continue Shopping</a>
+      </div>
+    {% else %}
+      <p class="text-center text-muted">Your cart is empty. 🛍</p>
+      <div class="text-center">
+        <a href="{% url 'pro' %}" class="btn btn-outline-primary rounded px-4 py-2">🛒 Go to Products</a>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+    <div class="form-container">
+        <h2 class="form-heading">Add Product</h2>
+        <form method="post" enctype="multipart/form-data" class="styled-form" onsubmit="showSuccessMessage(event)">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" class="btn btn-success btn-block" value="Submit">
+        </form>
+    </div>
+
+    <script>
+        function showSuccessMessage(event) {
+            event.preventDefault();
+            alert("Your data has been saved successfully!");
+            event.target.submit();
+        }
+    </script>
+
+    <style>
+        .form-container {
+            max-width: 700px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-heading {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .styled-form input, .styled-form select, .styled-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        .styled-form input:focus, .styled-form select:focus, .styled-form textarea:focus {
+            outline: none;
+            border-color: rgb(17, 25, 175);
+            box-shadow: 0px 0px 5px rgba(23, 13, 171, 0.5);
+        }
+
+        .btn-success {
+            background-color: rgb(18, 8, 161);
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .btn-success:hover {
+            background-color: rgb(11, 27, 14);
+        }
+    </style>
+
+{% endblock %}
